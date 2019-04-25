@@ -1,0 +1,5 @@
+noune(a,b,c,d)
+Func
+©decl,gen,case,num
+[["a","ae"]["ae","arum"]["ae","is"]["am","as"]["a","is"]["us","i"]["i","orum"]["o","is"]["um","os"]["o","is"]["?","es"]["is","um"]["i","ibus"]["em","es"]["e","ibus"]["us","us"]["us","uum"]["ui","ibus"]["um","us"]["u","ibus"]["es","es"]["ei","erum"]["ei","ebus"]["em","es"]["e","ebus"]["a","ae"]["ae","arum"]["ae","is"]["am","as"]["a","is"]["um","a"]["i","orum"]["o","is"]["um","a"]["o","is"]["?","a"]["is","um"]["i","ibus"]["?","a"]["e","ibus"]["u","ua"]["us","uum"]["ui","ibus"]["u","ua"]["u","ibus"]["es","es"]["ei","erum"]["ei","ebus"]["em","es"]["e","ebus"]][5*a-5+c+25*when(b=0,1,0),d]
+EndFunc
