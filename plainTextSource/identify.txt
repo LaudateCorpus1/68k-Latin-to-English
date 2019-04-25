@@ -1,0 +1,182 @@
+identify(n)
+Func
+©This function identifies any Latin word contained in Ecce Romani 1 & 2
+©Nouns {pos,translation,decl,case,gen,#,datable}
+©Verbs {pos,translation,conj,tense,act/pass,pers,#}
+©Adj   {pos,translation,decl,case,gen,#}
+©Adv   {pos,translation}
+©Conj  {pos,translation}
+Local i,j,k,l,out,boola,pos,decl,data,base,gend,str
+0→boola
+{"","","","","","",""}→out
+©wrda= {(part of speech)(decl/conj)(gender/irreg or evil verb?)(datable/deponent?)(Latin word)[ irreg. base(s)],...}
+©POS: 0=verb 1=noun 2=adj 3=pro 4=conj 5=prep 6=adv 7=int
+©DECL: 1-5=1st-5th   CONJ: 1-3=1st-3rd 4=3rdio 5=4th
+©GENDER: 0=n 1=m 2=f
+©DATABLE: 0=no 1=yes
+Define pos(n)=Func
+expr(left(n,1))
+EndFunc
+Define decl(n)=Func
+expr(mid(n,2,1))
+EndFunc
+Define gend(n)=Func
+expr(mid(n,3,1))
+EndFunc
+Define data(n)=Func
+expr(mid(n,4,1))
+EndFunc
+Define base(a,n)=Func
+Local i,j
+5→j
+If n>1 Then
+For i,2,n
+If inString(a," ",j)≠dim(a) Then
+inString(a," ",j)+1→j
+Else
+Return ""
+EndIf
+EndFor
+EndIf
+mid(a,j,inString(a," ",j)-j)
+EndFunc
+0→i
+Goto skipbase
+Lbl samebase
+out[2]→i
+Lbl skipbase
+0→j
+©C A N C E R  B O U N D A R Y
+While i<dim(wrda) and j=0
+i+1→i
+i→out[2]
+wrda[out[2]]→str
+when(pos(str)≥3,when(n=base(str,1),1,0),inString(n,base(str,1)))→j
+If inString(wrda[i]," ")≠dim(wrda[i]) Then
+If pos(str)=0 Then
+If gend(str)=1 Then
+max(seq(when(n=base(str,i),1,0),i,2,37))+j→j
+Else
+max(seq(inString(n,base(str,i)),i,1,4))+j→j
+EndIf
+EndIf
+If pos(str)=1 Then
+If n=base(str,2) Then
+j+1→j
+"Nom"→out[3]
+"Sin"→out[5]
+EndIf
+EndIf
+EndIf
+EndWhile
+©C A N C E R  B O U N D A R Y
+wrda[out[2]]→str
+If pos(str)=0 Then
+"Ver"→out[1]
+mid("1st2nd3rd3io4th",3*decl(str)-2,3)→out[3]
+If gend(str)=1 Then
+©Freaking irregular verbs, man.
+If n=base(str,1) Then
+{out[1],wrdb[out[2]],out[3],"Inf"}→out
+Return out
+EndIf
+For i,2,37
+when(n=base(str,i),i,j)→j
+EndFor
+remain(j+1,3)+1→out[6]
+intDiv(j-2,6)+1→out[4]
+remain(intDiv(j-2,3),2)+1→out[7]
+intDiv(j-2,18)+1→out[5]
+Goto formverb
+EndIf
+If n=base(str,2) Then
+wrdb[out[2]]→out[2]
+{out[1],base("xxxx"&out[2],1),out[3],"Inf"}→out
+Return out
+ElseIf gend(str)=1 Then
+For j,1,6
+For k,1,3
+For l,1,2
+If n=base(str,6*j+3*l+k-7) Then
+j→out[4]
+i→out[5]
+k→out[6]
+l→out[7]
+EndIf
+EndFor
+EndFor
+EndFor
+Else
+For i,1,2
+For j,1,6
+For k,1,3
+For l,1,2
+If n=when(j≤3,base(str,1),when(i=1,base(str,3),base(str,4)))&when(j≥4 and i=2,when(l=1,"us","i"),"")&verbe(decl(str),j,i,k,l) Then
+j→out[4]
+i→out[5]
+k→out[6]
+l→out[7]
+EndIf
+EndFor
+EndFor
+EndFor
+EndFor
+EndIf
+Lbl formverb
+If out[5]=1 and base(str,1)≠"esse" or data(str)=1 Then
+1→out[5]
+{"",when(out[7]=1 and out[6]≠2,"was ","were "),"will ","","had ","will have "}[out[4]]&base("xxxx"&wrdb[out[2]],{1,2,1,3,3,3}[out[4]])→out[2]
+Else
+{when(out[6]=1 and out[7]=1,"am",when(out[6]=3 and out[7]=1,"is","are")),when(out[7]=1 and out[6]≠2,"was","were"),"will be",when(out[7]=1 and out[6]≠2,"was","were"),"had been","will have been"}[out[4]]&when(base(str,1)="esse",""," ")&when(base(str,1)="esse","",base("xxxx"&wrdb[out[2]],3))→out[2]
+EndIf
+mid("PreImpFutPerPluFpe",3*out[4]-2,3)→out[4]
+mid("ActPas",3*out[5]-2,3)→out[5]
+mid("1st2nd3rd",3*out[6]-2,3)→out[6]
+mid("SinPlu",3*out[7]-2,3)→out[7]
+Return out
+EndIf
+If pos(str)=1 Then
+mid("NeuMasFem",3*gend(str)+1,3)→out[4]
+If out[3]="" Then
+For i,1,5
+For j,1,2
+If noune(decl(str),gend(str),i,j)=right(n,dim(noune(decl(str),gend(str),i,j))) and dim(noune(decl(str),gend(str),i,j))+dim(base(str,1))=dim(n) Then
+out[3]&mid("NomGenDatAccAbl",3*i-2,3)→out[3]
+out[5]&mid("SinPlu",3*j-2,3)→out[5]
+EndIf
+EndFor
+EndFor
+EndIf
+If out[3]="" and boola≠1 Then
+1→boola
+Goto samebase
+EndIf
+left(wrdb[out[2]],dim(wrdb[out[2]])-1)→out[2]
+"Nou"→out[1]
+seq(out[n],n,1,5)→out
+Return out
+EndIf
+If pos(str)=2 Then
+"Adj"→out[1]
+For i,0,2
+For j,1,5
+For k,1,2
+If n=base(str,1)&adje(decl(str),i,j,k) Then
+out[3]&mid("NomGenDatAccAbl",3*j-2,3)→out[3]
+out[4]&mid("NeuMasFem",3*i+1,3)→out[4]
+out[5]&mid("SinPlu",3*k-2,3)→out[5]
+EndIf
+EndFor
+EndFor
+EndFor
+base("xxxx"&wrdb[out[2]],1)→out[2]
+seq(out[n],n,1,5)→out
+Return out
+EndIf
+If pos(str)≥3 and pos(str)≤7 Then
+left(wrdb[out[2]],dim(wrdb[out[2]])-1)→out[2]
+mid("ProConPreAdvInt",3*pos(str)-8,3)→out[1]
+{out[1],out[2]}→out
+Return out
+EndIf
+EndFunc
