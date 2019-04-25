@@ -1,0 +1,8 @@
+length(n)
+Func
+If getType(n)="NUM" Then
+dim(string(n))
+Else
+dim(n)
+EndIf
+EndFunc
