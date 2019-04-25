@@ -1,0 +1,15 @@
+base(a,n)
+Func
+Local i,j
+5→j
+If n>1 Then
+For i,2,n
+If instring(a," ",j)≠dim(a) Then
+instring(a," ",j)+1→j
+Else
+Return ""
+EndIf
+EndFor
+EndIf
+mid(a,j,instring(a," ",j)-j)
+EndFunc
