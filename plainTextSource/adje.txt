@@ -1,0 +1,5 @@
+adje(a,b,c,d)
+Func
+©decl,gen,case,num
+[["us","i"]["i","orum"]["o","is"]["um","os"]["o","is"]["a","ae"]["ae","arum"]["ae","is"]["am","as"]["a","is"]["um","a"]["i","orum"]["o","is"]["um","a"]["o","is"]["is","es"]["is","ium"]["i","ibus"]["em","es"]["i","ibus"]["is","es"]["is","ium"]["i","ibus"]["em","es"]["i","ibus"]["e","ia"]["is","ium"]["i","ibus"]["e","ia"]["i","ibus"]][when(a=3,15,0)+5*when(b=0,2,b-1)+c,d]
+EndFunc
