@@ -1,0 +1,9 @@
+verbe(a,b,c,d,e)
+Func
+©conj,tense,act/pass,person,num
+If b≥1 and b≤3 Then
+[["a","e",when(d=3 and e=2,"u",when(c=2 and d=2 and e=1,"e","i")),when(d=3 and e=2,"iu",when(c=2 and d=2 and e=1,"e","i")),when(d=3 and e=2,"iu",when(c=2 and d=2 and e=1,"e","i"))]["aba","eba","eba","ieba","ieba"][when(c=2 and d=2 and e=1,"abe","abi"),when(c=2 and d=2 and e=1,"ebe","ebi"),when(d+e=2,"a","e"),when(d+e=2,"ia","ie"),when(d+e=2,"ia","ie")]][b,a]&[[when(a=1 and b=1 or b=2 or b=3 and (a=3 or a=4 or a=5) and d=1 and e=1,"m","o"),"mus"]["s","tis"]["t","nt"]["r","mur"]["ris","mini"]["tur","ntur"]][3*c-3+d,e]
+Else
+when(c=1,""," ")&[[when(c=1,"i","sum"),when(c=1,"imus","sumus")][when(c=1,"isti","es"),when(c=1,"istis","estis")][when(c=1,"it","est"),when(c=1,"erunt","sunt")]["eram","eramus"]["eras","eratis"]["erat","erant"]["ero","erimus"]["eris","eritis"]["erit",when(c=1,"erint","erunt")]][3*b-12+d,e]
+EndIf
+EndFunc
