@@ -1,0 +1,12 @@
+lateng(str)
+Func
+Local i,out
+©This function translates Latin sentencs to English, granting that the Latin words used are in the Ecce Romani 2 textbook. This merely assembles sentences,while identify() determines individual word translation.
+""→out
+wlist(str)→str
+seq(identify(str[n])[2],n,1,dim(str))→str
+For i,1,dim(str)
+out&str[i]&when(i≠dim(str)," ","")→out
+EndFor
+Return out
+EndFunc
