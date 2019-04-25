@@ -1,0 +1,54 @@
+romnum(n)
+Func
+Local sb,st
+""→sb
+""→st
+If getType(n)="NUM" Then
+Loop
+If n≤3 Then
+sb&"I"→sb
+n-1→n
+ElseIf n≤5 Then
+"V"&st→st
+5-n→n
+ElseIf n≤8 Then
+sb&"V"→sb
+n-5→n
+ElseIf n≤10 Then
+"X"&st→st
+10-n→n
+ElseIf n≤30 Then
+sb&"X"→sb
+n-10→n
+ElseIf n≤50 Then
+"L"&st→st
+50-n→n
+ElseIf n≤75 Then
+sb&"L"→sb
+n-50→n
+ElseIf n≤100 Then
+"C"&st→st
+100-n→n
+ElseIf n≤300 Then
+sb&"C"→sb
+n-100→n
+ElseIf n≤500 Then
+"D"&st→st
+500-n→n
+ElseIf n≤750 Then
+sb&"D"→sb
+n-500→n
+ElseIf n≤1000 Then
+"M"&st→st
+1000-n→n
+Else
+sb&"M"→sb
+n-1000→n
+EndIf
+If n=0 Then
+Exit
+EndIf
+EndLoop
+EndIf
+sb&st
+EndFunc
