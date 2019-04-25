@@ -1,0 +1,11 @@
+wlist(str)
+Func
+Local j
+{""}→j
+While instring(str," ")>0
+augment(j,{left(str,instring(str," ")-1)})→j
+right(str,dim(str)-instring(str," "))→str
+EndWhile
+augment(seq(j[n],n,2,dim(j)),{str})→j
+Return j
+EndFunc
