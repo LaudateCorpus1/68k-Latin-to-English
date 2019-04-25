@@ -50,7 +50,7 @@ dim(n)→j
 While i=0 and j>1
 j-1→j
 If inString(wrdindex,left(n,j))>0 Then
-expr(mid(wrdindex,inString(wrdindex,left(n,j))-4,4)→i
+expr(mid(wrdindex,inString(wrdindex,left(n,j))-4,4))→i
 EndIf
 EndWhile
 i→out[2]
