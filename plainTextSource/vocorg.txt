@@ -1,0 +1,105 @@
+vocorg()
+Prgm
+"This function sorts vocab list entries to be used in identify(). Outputs are the input lists organized alphabetically based on wrda."
+Local pos,dec,gen,dat,lata,latb,latc,latd,latz,enga,engb,engc,latout,engout,i,j,k,l
+Loop
+"x"→pos
+"x"→dec
+"x"→gen
+"x"→dat
+""→lata
+""→latb
+""→latc
+""→latd
+""→enga
+""→engb
+""→engc
+Disp "0=Verb 1=Noun 2=Adj 3=Pro 4=Conj ","5=Prep 6=Adv 7=Int"
+InputStr "Part of speech:",pos
+If pos="0" Then
+InputStr "Conjugation:",dec
+ElseIf pos="1" Then
+InputStr "Declension:",dec
+Disp "0=Neu 1=Mas 2=Fem"
+InputStr "Gender:",gen
+Disp "0=No 1=Yes"
+InputStr "Datable:",dat
+ElseIf pos="2" Then
+InputStr "Declension:",dec
+EndIf
+If pos="0" Then
+InputStr "Irreg?:",dat
+InputStr "Deponent?:",gen
+If dat="0" Then
+InputStr "1st PP:",lata
+InputStr "2nd PP:",latb
+InputStr "3rd PP:",latc
+InputStr "4th PP:",latd
+Else
+{""}→latz
+InputStr "2nd PP:",i
+i→latz[1]
+For i,1,6
+For k,1,2
+For j,1,3
+InputStr mid("PreImpFutPerPluFpe",3*i-2,3)&" "&mid("1st2nd3rd",3*j-2,3)&" Person "&mid("SinPlu",3*k-2,3),l
+augment(latz,{l})→latz
+EndFor
+EndFor
+EndFor
+EndIf
+ElseIf pos="1" Then
+InputStr "Base:",lata
+InputStr "Irreg. Base:",latb
+Else
+InputStr "Base:",lata
+EndIf
+If pos="0" Then
+Disp "[Give]"
+InputStr "Translation:",enga
+Disp "[Giving]"
+InputStr "Translation:",engb
+Disp "[Gave]"
+InputStr "Translation:",engc
+Else
+InputStr "Translation:",enga
+EndIf
+If pos="0" and dat="1" Then
+""→lata
+For i,1,dim(latz)
+lata&latz[i]&" "→lata
+EndFor
+pos&dec&dat&gen&lata→latout
+Else
+pos&dec&gen&dat&lata&" "→latout
+If latb≠"" Then
+latout&latb&" "→latout
+EndIf
+If latc≠"" Then
+latout&latc&" "→latout
+EndIf
+If latd≠"" Then
+latout&latd&" "→latout
+EndIf
+EndIf
+If pos="0" Then
+enga&" "&engb&" "&engc&" "→engout
+Else
+enga&" "→engout
+EndIf
+Disp latout
+If max(seq(when(wrda[n]=latout,1,0),n,1,dim(wrda)))=1 Then
+Pause "Duplicate detected."
+Else
+augment(wrda,{latout})→wrda
+augment(wrdb,{engout})→wrdb
+EndIf
+Input "Done?:",i
+If i≠0 Then
+Exit
+EndIf
+EndLoop
+seq(mid(wrda[n],5)&left(wrda[n],4),n,1,dim(wrda))→wrda
+SortA wrda,wrdb
+seq(right(wrda[n],4)&left(wrda[n],dim(wrda[n])-4),n,1,dim(wrda))→wrda
+EndPrgm
