@@ -45,21 +45,16 @@ Goto skipbase
 Lbl samebase
 out[2]→i
 Lbl skipbase
-0→j
-©C A N C E R  B O U N D A R Y
-While i<dim(wrda) and j=0
-i+1→i
+dim(n)→j
+0→i
+While i=0 and j>1
+j-1→j
+If inString(wrdindex,left(n,j))>0 Then
+expr(mid(wrdindex,inString(wrdindex,left(n,j))-4,4)→i
+EndIf
+EndWhile
 i→out[2]
-wrda[out[2]]→str
-when(pos(str)≥3,when(n=base(str,1),1,0),inString(n,base(str,1)))→j
-If inString(wrda[i]," ")≠dim(wrda[i]) Then
-If pos(str)=0 Then
-If gend(str)=1 Then
-max(seq(when(n=base(str,i),1,0),i,2,37))+j→j
-Else
-max(seq(inString(n,base(str,i)),i,1,4))+j→j
-EndIf
-EndIf
+wrda[i]→str
 If pos(str)=1 Then
 If n=base(str,2) Then
 j+1→j
@@ -67,10 +62,6 @@ j+1→j
 "Sin"→out[5]
 EndIf
 EndIf
-EndIf
-EndWhile
-©C A N C E R  B O U N D A R Y
-wrda[out[2]]→str
 If pos(str)=0 Then
 "Ver"→out[1]
 mid("1st2nd3rd3io4th",3*decl(str)-2,3)→out[3]
