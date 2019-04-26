@@ -1,6 +1,6 @@
 identify(n)
 Func
-©This function identifies any Latin word contained in Ecce Romani 1 & 2
+©This function identifies any Latin word contained in the library lists wrda and wrdb, and the wrdindex index.
 ©Nouns {pos,translation,decl,case,gen,#,datable}
 ©Verbs {pos,translation,conj,tense,act/pass,pers,#}
 ©Adj   {pos,translation,decl,case,gen,#}
