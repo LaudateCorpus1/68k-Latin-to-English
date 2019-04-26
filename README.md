@@ -1,5 +1,5 @@
 # 68k-Latin-to-English
-This program translates any string of Ciceronian Latin into modern English, granted that the words used in the sentence are contained within the Latin word library used by the program, which will soon encompass every word in the Ecce Romani II textbook. Sending each of these files to your calculator and running identify("Latin word") is all that is needed to demonstrate word translation, while lateng("Latin sentence") will translate any length of Latin passages.
+This program translates any string of Ciceronian Latin into modern English on a Voyage 200 graphing calculator (or other 68k TI device if you reformat the source), granted that the words used in the sentence are contained within the Latin word library used by the program, which will soon encompass every word in the Ecce Romani II textbook. Sending each of these files to your calculator and running identify("Latin word") is all that is needed to demonstrate word translation, while lateng("Latin sentence") will translate any length of Latin passages.
 
 Below are the different files in this repository and their uses:
 
