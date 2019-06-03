@@ -39,6 +39,19 @@ EndFunc
 Define data(n)=Func
 expr(mid(n,4,1))
 EndFunc
+
+©ADDITION: I'm adding more local functions that will do the same thing as other functions, but carry a different name to be used with different parts of speech. For instance, decl() will have the same use as conj(), but one is used for some kinds of words, and one for verbs only.
+Define conj(n)=Func
+expr(mid(n,2,1))
+EndFunc
+Define irreg(n)=Func
+expr(mid(n,3,1))
+EndFunc
+Define depo(n)=Func
+expr(mid(n,4,1))
+EndFunc
+©END ADDITION
+
 Define base(a,n)=Func
 Local i,j
 5->j
@@ -55,7 +68,7 @@ mid(a,j,inString(a," ",j)-j)
 EndFunc
 
 ©BEGIN BASE LOCATION
-©Note: The base identification code is post-wrdindex, meaning there may be some vestigial code lying around.
+©Note: The base identification code is post-wrdindex, meaning there may be some vestigial code lying around elsewhere.
 ©The samebase/skipbase notation is archaic and needs to be removed, but I don't know how crucial it is to the overall function of the program. Its original purpose was to protect against words with identical bases from being confused with each other, like amica, -ae and amicus, -i. I'm gonna leave it for now. 5/31/19
 0->i
 ©Why is this goto here? Why does it literally pass two lines of code? I don't know. Does the program give an error if I take it out? Yes. It stays. 5/31/19
@@ -94,7 +107,7 @@ If pos(str)=0 Then
 "Ver"->out[1]
 mid("1st2nd3rd3io4th",3*decl(str)-2,3)->out[3]
 
-©If the verb is irregular (like sum, esse, fui) it does it's own special thing and skips right on to the verb formation section. Thing is, it's broken right now. 5/31/19
+©If the verb is irregular (like sum, esse, fui) it does its own special thing and skips right on to the verb formation section. Thing is, it's broken right now. 5/31/19
 If gend(str)=1 Then
 ©Freaking irregular verbs, man. 4/5/19
 ©God knows why this is in here, also this is back when I thought there was only one infinitive.
