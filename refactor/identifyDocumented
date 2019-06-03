@@ -1,14 +1,9 @@
 identify(n)
 Func
 
-©This version of identify() is meant to be the chassis for my refactor, and not the final product. Most 
-
-documentation and the information required to understand the program flow can be found throughout this file.
-
+©This version of identify() is meant to be the chassis for my refactor, and not the final product. Most documentation and the information required to understand the program flow can be found throughout this file.
 ©ESSENTIAL DOCUMENTATION
-©This function identifies any Latin word contained in the library lists wrda and wrdb, and the wrdindex index, 
-
-based on an input string.
+©This function identifies any Latin word contained in the library lists wrda and wrdb, and the wrdindex index, based on an input string.
 ©Dependencies: wrda wrdb wrdindex adje() verbe() length() romnum() wlist
 ©Nouns {pos,translation,decl,case,gen,#,datable}
 ©Verbs {pos,translation,conj,tense,act/pass,pers,#}
@@ -19,23 +14,13 @@ based on an input string.
 ©? word{pos,translation}
 
 ©INIT LOCALS
-©i, j, k, and l are used for nothing except temp vars and For loops (I promise). out is the final output of the 
-
-function and is built over the course of the function. boola is part of the archaic skipbase protocol mentioned 
-
-below. pos, data, base, and gend are essential functions for extrapolating word metadata, typically from str. 
-
-str should not change after the base is identified, and is a string containing the element in wrda where the 
-
-base was found. 
+©i, j, k, and l are used for nothing except temp vars and For loops (I promise). out is the final output of the function and is built over the course of the function. boola is part of the archaic skipbase protocol mentioned below. pos, data, base, and gend are essential functions for extrapolating word metadata, typically from str. str should not change after the base is identified, and is a string containing the element in wrda where the base was found. 
 Local i,j,k,l,out,boola,pos,decl,data,base,gend,str
 0->boola
 {"","","","","","",""}->out
 
 ©VAR FORMATTING DOCUMENTATION
-©wrda= {(part of speech)(decl/conj)(gender/irreg or evil verb?)(datable/deponent?)(Latin word)[ irreg. base
-
-(s)],...}
+©wrda= {(part of speech)(decl/conj)(gender/irreg or evil verb?)(datable/deponent?)(Latin word)[ irreg. base(s)],...}
 ©POS: 0=verb 1=noun 2=adj 3=pro 4=conj 5=prep 6=adv 7=int
 ©DECL: 1-5=1st-5th   CONJ: 1-3=1st-3rd 4=3rdio 5=4th
 ©GENDER: 0=n 1=m 2=f
@@ -71,15 +56,9 @@ EndFunc
 
 ©BEGIN BASE LOCATION
 ©Note: The base identification code is post-wrdindex, meaning there may be some vestigial code lying around.
-©The samebase/skipbase notation is archaic and needs to be removed, but I don't know how crucial it is to the 
-
-overall function of the program. Its original purpose was to protect against words with identical bases from 
-
-being confused with each other, like amica, -ae and amicus, -i. I'm gonna leave it for now. 5/31/19
+©The samebase/skipbase notation is archaic and needs to be removed, but I don't know how crucial it is to the overall function of the program. Its original purpose was to protect against words with identical bases from being confused with each other, like amica, -ae and amicus, -i. I'm gonna leave it for now. 5/31/19
 0->i
-©Why is this goto here? Why does it literally pass two lines of code? I don't know. Does the program give an 
-
-error if I take it out? Yes. It stays. 5/31/19
+©Why is this goto here? Why does it literally pass two lines of code? I don't know. Does the program give an error if I take it out? Yes. It stays. 5/31/19
 Goto skipbase
 Lbl samebase
 out[2]->i
@@ -87,13 +66,7 @@ Lbl skipbase
 ©n is the input string, by the way.
 dim(n)->j
 0->i
-©This while loop is the only place where wrdindex is used. It works by searching for the input string in the 
-
-index, then chopping a letter off the input string every time it fails to find the amended input string until 
-
-it arrives upon the base in wrdindex. In theory it should dissolve half the issues that skipbase was supposed 
-
-to fix. What it does do perfectly is speed up the program.
+©This while loop is the only place where wrdindex is used. It works by searching for the input string in the index, then chopping a letter off the input string every time it fails to find the amended input string until it arrives upon the base in wrdindex. In theory it should dissolve half the issues that skipbase was supposed to fix. What it does do perfectly is speed up the program.
 ©While [We haven't stored a match in i] and [We still have letters left in our search string]
 While i=0 and j>1
 j-1->j
@@ -103,9 +76,7 @@ EndIf
 EndWhile
 
 ©BEGIN POST-BASE IDENTIFICATION
-©Hack alert: out[2] needs to eventually contain a string holding the english translation, but here it's 
-
-literally just storing its wrda position to be referenced throughout the program. It's not great, but it works.
+©Hack alert: out[2] needs to eventually contain a string holding the english translation, but here it's literally just storing its wrda position to be referenced throughout the program. It's not great, but it works.
 i->out[2]
 wrda[i]->str
 
@@ -123,9 +94,7 @@ If pos(str)=0 Then
 "Ver"->out[1]
 mid("1st2nd3rd3io4th",3*decl(str)-2,3)->out[3]
 
-©If the verb is irregular (like sum, esse, fui) it does it's own special thing and skips right on to the verb 
-
-formation section. Thing is, it's broken right now. 5/31/19
+©If the verb is irregular (like sum, esse, fui) it does it's own special thing and skips right on to the verb formation section. Thing is, it's broken right now. 5/31/19
 If gend(str)=1 Then
 ©Freaking irregular verbs, man. 4/5/19
 ©God knows why this is in here, also this is back when I thought there was only one infinitive.
@@ -161,16 +130,12 @@ EndFor
 EndFor
 Else
 
-©And if it's NOT irregular, it identifies it normally except it doesn't because I wrote this before Latin II 
-
-ended. The whole verb secion needs a hard refactor. 5/31/19
+©And if it's NOT irregular, it identifies it normally except it doesn't because I wrote this before Latin II ended. The whole verb secion needs a hard refactor. 5/31/19
 For i,1,2
 For j,1,6
 For k,1,3
 For l,1,2
-If n=when(j≤3,base(str,1),when(i=1,base(str,3),base(str,4)))&when(j≥4 and i=2,when(l=1,"us","i"),"")&verbe
-
-(decl(str),j,i,k,l) Then
+If n=when(j≤3,base(str,1),when(i=1,base(str,3),base(str,4)))&when(j≥4 and i=2,when(l=1,"us","i"),"")&verbe(decl(str),j,i,k,l) Then
 j->out[4]
 i->out[5]
 k->out[6]
@@ -182,22 +147,14 @@ EndFor
 EndFor
 EndIf
 
-©This section's a little easier on the eyes. It's where the program formulates the English translation of a 
-
-verb, i.e. when() statement heaven.
+©This section's a little easier on the eyes. It's where the program formulates the English translation of a verb, i.e. when() statement heaven.
 Lbl formverb
 ©If the word is not the verb to be or it's not deponent
 If out[5]=1 and base(str,1)≠"esse" or data(str)=1 Then
 1->out[5]
-{"",when(out[7]=1 and out[6]≠2,"was ","were "),"will ","","had ","will have "}[out[4]]&base("xxxx"&wrdb[out
-
-[2]],{1,2,1,3,3,3}[out[4]])->out[2]
+{"",when(out[7]=1 and out[6]≠2,"was ","were "),"will ","","had ","will have "}[out[4]]&base("xxxx"&wrdb[out[2]],{1,2,1,3,3,3}[out[4]])->out[2]
 Else
-{when(out[6]=1 and out[7]=1,"am",when(out[6]=3 and out[7]=1,"is","are")),when(out[7]=1 and out[6]
-
-≠2,"was","were"),"will be",when(out[7]=1 and out[6]≠2,"was","were"),"had been","will have been"}[out[4]]&when
-
-(base(str,1)="esse",""," ")&when(base(str,1)="esse","",base("xxxx"&wrdb[out[2]],3))->out[2]
+{when(out[6]=1 and out[7]=1,"am",when(out[6]=3 and out[7]=1,"is","are")),when(out[7]=1 and out[6]≠2,"was","were"),"will be",when(out[7]=1 and out[6]≠2,"was","were"),"had been","will have been"}[out[4]]&when(base(str,1)="esse",""," ")&when(base(str,1)="esse","",base("xxxx"&wrdb[out[2]],3))->out[2]
 EndIf
 ©Home stretch! These next few lines make the data in out readable then push a final output.
 mid("PreImpFutPerPluFpe",3*out[4]-2,3)->out[4]
@@ -211,16 +168,12 @@ EndIf
 If pos(str)=1 Then
 ©Not sure why it's making gender readable so early, but it is.
 mid("NeuMasFem",3*gend(str)+1,3)->out[4]
-©This line checks to see if declension was identified already, signifying that it was the irregular nom/sing of 
-
-a noun.
+©This line checks to see if declension was identified already, signifying that it was the irregular nom/sing of a noun.
 If out[3]="" Then
 ©Pretty simple, these For loops identify the endings.
 For i,1,5
 For j,1,2
-If noune(decl(str),gend(str),i,j)=right(n,dim(noune(decl(str),gend(str),i,j))) and dim(noune(decl(str),gend
-
-(str),i,j))+dim(base(str,1))=dim(n) Then
+If noune(decl(str),gend(str),i,j)=right(n,dim(noune(decl(str),gend(str),i,j))) and dim(noune(decl(str),gend(str),i,j))+dim(base(str,1))=dim(n) Then
 out[3]&mid("NomGenDatAccAbl",3*i-2,3)->out[3]
 out[5]&mid("SinPlu",3*j-2,3)->out[5]
 EndIf
@@ -260,9 +213,7 @@ Return out
 EndIf
 
 ©OTHER WORD IDENTIFICATION
-©These other parts of speech have no extra forms or principal parts, so identifying them is very simple. No 
-
-issues here.
+©These other parts of speech have no extra forms or principal parts, so identifying them is very simple. No issues here.
 If pos(str)≥3 and pos(str)≤7 Then
 left(wrdb[out[2]],dim(wrdb[out[2]])-1)->out[2]
 mid("ProConPreAdvInt",3*pos(str)-8,3)->out[1]
